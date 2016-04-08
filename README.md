@@ -36,8 +36,10 @@ In addition, environmental niches can be explored by mapping factor "preference"
 
 # Examples: 
 ![Mean available Phosphorus preference in active OTUS](img/AP_network.png)
+
 Mean available Phosphorus preference in active OTUS (Plotted with igraph)
 
-![Mean available Phosphorus preference in active OTUS](img/RNA_AP_network.png)
+![Mean available Phosphorus preference in active OTUS](img/RNA_AP_network_small.png)
+
 Mean available Phosphorus preference in active OTUS (Plotted with Cytoscape, Edited with Adobe Illustrator)
 
