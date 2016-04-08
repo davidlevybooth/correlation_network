@@ -1,4 +1,4 @@
-Weighted correlation network analysis with igraph
+# Weighted correlation network analysis with igraph
 
 D. Levy-Booth 04/08/2016
 
@@ -11,7 +11,7 @@ co-occurance and co-abundance. Exclusion is much more difficult to parse with a 
 
 In addition, environmental niches can be explored by mapping factor "preference" as a mean value for each OTU to the network (Robador et al. 2016) http://www.nature.com/ismej/journal/v10/n4/full/ismej2015157a.html
 
-Analysis Steps: 
+# Analysis Steps: 
 
 1. Optional: Compile OTU, Taxonomy and Sample metadata
 
@@ -32,3 +32,7 @@ Analysis Steps:
 9. Optional: Export network to ploting software (e.g., Cytoscape)
 
 10. Optional: plot OTU variable means against variable distributions in samples 
+
+
+# Examples: 
+![Mean available Phosphorus preference in active OTUS](img/AP_network.png)
