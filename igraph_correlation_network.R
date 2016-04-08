@@ -46,25 +46,25 @@ phyloseq_object = import_biom(biom_file, parse_function=parse_taxonomy_greengene
 MAP=import_qiime_sample_data("metadata_table.txt")
 
 ### Create and edit phyloseq object
-phyloseq_object <- merge_phyloseq(phyloseq_object, MAP)
+phyloseq_object = merge_phyloseq(phyloseq_object, MAP)
 
 ### 2. Optional: Filter OTU data, e.g., removal of low-abundance OTUs
 ### Phyloseq not required if OTU table already in proper form 
-phyloseq_object_pruned <- prune_samples(sample_data(phyloseq_object)$Subset_variable=="attribute", phyloseq_object) # To subset samples
-phyloseq_object_merged <- merge_samples(phyloseq_object_pruned, sample_data(phyloseq_object_pruned)$Merge_variable) # To merge samples
-phyloseq_object_filtered <- filter_taxa(phyloseq_object_merged, function(x) sum(x) > 100, TRUE) # To remove OTUS with < 100 counts
-OTU_labels <- tax_table(phyloseq_object_filtered)[,"Taxonomic_Level"] # Create label vector at desired taxonomic level 
+phyloseq_object_pruned = prune_samples(sample_data(phyloseq_object)$Subset_variable=="attribute", phyloseq_object) # To subset samples
+phyloseq_object_merged = merge_samples(phyloseq_object_pruned, sample_data(phyloseq_object_pruned)$Merge_variable) # To merge samples
+phyloseq_object_filtered = filter_taxa(phyloseq_object_merged, function(x) sum(x) > 100, TRUE) # To remove OTUS with < 100 counts
+OTU_labels = tax_table(phyloseq_object_filtered)[,"Taxonomic_Level"] # Create label vector at desired taxonomic level 
 phyloseq_object_transformed = transform_sample_counts(phyloseq_object_filtered, function(x) x/sum(x)) # calcualte relative abundance
-otu_table <- as.matrix(otu_table(phyloseq_object_transformed)) #extract just OTUs
+otu_table = as.matrix(otu_table(phyloseq_object_transformed)) #extract just OTUs
 
 #Pull out metadata 
-metadata <- sample_data(phyloseq_object)
+metadata = sample_data(phyloseq_object)
 
 ### 3. Create and filter correlation matrix
-otu_cor <- rcorr(otu_table) # calculate correlation table # Suggest keeping default Pearson correlations
-otu_cor_r <- otu_cor$r
-cor_len <- length(otu_cor_r) - nrow(otu_cor_r) # Remove self-correlations from n 
-adjusted_p <- p.adjust(otu_cor$P, method="fdr") #FDR-correct p-values
+otu_cor = rcorr(otu_table) # calculate correlation table # Suggest keeping default Pearson correlations
+otu_cor_r = otu_cor$r
+cor_len = length(otu_cor_r) - nrow(otu_cor_r) # Remove self-correlations from n 
+adjusted_p = p.adjust(otu_cor$P, method="fdr") #FDR-correct p-values
 
 # Option 1. To select correlations by FDR-corrected p-values 
 otu_cor_r[ adjusted_p > .05 ] <- 0
@@ -77,14 +77,14 @@ diag(rna_cor_r) <- 0
 
 
 ### 4. Create correlation network
-otu_graph <- graph.adjacency(otu_cor_r, weighted=TRUE, mode="lower")
+otu_graph = graph.adjacency(otu_cor_r, weighted=TRUE, mode="lower")
 
 
 ### 5. Optional: Calculate OTU means for environmental factors
 ### 5a. "plotmax" Function to calculate the plot in which each OTU is at maximum 
 ### OTU table rownames must be sample names 
 plotmax <- function(matrix) {
-  plotmaxs <- rep(0, ncol(matrix))
+  plotmaxs = rep(0, ncol(matrix))
   for (i in 1:ncol(matrix)) {
     row_index = which.max( matrix[,i] )
     row_name = rownames(matrix[row_index])
@@ -93,20 +93,20 @@ plotmax <- function(matrix) {
   return(plotmaxs)
 }
 
-plot_max <- plotmax(otu_table)
+plot_max = plotmax(otu_table)
 
 
 ### 5b. "var_weights" function to calcualte the "environmental preference" of each
 ### OTU. variable must be in the form of an atomic vector: i.e., metadata$variable
 var_weights <- function (otu_table, variable) {
   otu_var = variable * otu_table # 1
-  otu_sum <- colSums(otu_table) # 2
-  var_sum <- colSums(otu_var) # 3
-  var_weight <- var_sum/otu_sum # 4
+  otu_sum = colSums(otu_table) # 2
+  var_sum = colSums(otu_var) # 3
+  var_weight = var_sum/otu_sum # 4
  return(var_weight)
 }
 
-variable_weight <- var_weights(otu_table, metadata$variable)
+variable_weight = var_weights(otu_table, metadata$variable)
 
 ### 6. Apply OTU means as node attributes
 V(otu_graph)$variable <- variable_weight
@@ -122,7 +122,7 @@ plot(otu_graph, layout=layout.fruchterman.reingold, vertex.size=6, vertex.label=
 
 ### 8. Optional: Test node coordinate dissimiarity against OTU means
 ### Calculate node X,Y coordinates (default: Fruchterman-Reingold layout)
-graph_layout <- layout.spring(otu_graph)
+graph_layout = layout.spring(otu_graph)
 
 mantel(dist(graph_layout) ~ dist(variable_weight), nperm=9999)
 
@@ -131,17 +131,17 @@ write.graph(otu_graph, file="filename.graphml", format="graphml")
 
 
 ### 10. Optional: plot OTU variable means against variable distributions in samples
-variable <- metadata$variable
+variable = metadata$variable
 
 ### Function to plot density distributions 
 dist_plot <- function (actual, weight, title) {
   
-  red_AD_Col <- rgb(1,0,0,0.2)
-  red_WD_Col <- rgb(0,0,1,0.2)
+  red_AD_Col = rgb(1,0,0,0.2)
+  red_WD_Col = rgb(0,0,1,0.2)
   
-  red_AD <- density(actual)
-  red_WD <- density(weight)
-  xlim <- range(red_AD$x)
+  red_AD = density(actual)
+  red_WD = density(weight)
+  xlim = range(red_AD$x)
   
   par(mar=c(5, 4, 4, 5) + 0.1)
   plot(red_AD, xlim = xlim, col="red", ylab = paste("Sample", title, "Density",sep=" "), xlab = title, main="")
