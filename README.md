@@ -12,13 +12,23 @@ co-occurance and co-abundance. Exclusion is much more difficult to parse with a 
 In addition, environmental niches can be explored by mapping factor "preference" as a mean value for each OTU to the network (Robador et al. 2016) http://www.nature.com/ismej/journal/v10/n4/full/ismej2015157a.html
 
 Analysis Steps: 
+
 1. Optional: Compile OTU, Taxonomy and Sample metadata
+
 2. Optional: Filter OTU data, e.g., removal of low-abundance OTUs
+
 3. Create and filter correlation matrix
+
 4. Create correlation network
+
 5. Optional: Calculate OTU means for environmental factors
+
 6. Apply OTU means as node attributes
+
 7. Plot graphs with OTU variable means as node colors 
+
 8. Optional: Test node coordinant dissimiarity against OTU means
+
 9. Optional: Export network to ploting software (e.g., Cytoscape)
+
 10. Optional: plot OTU variable means against variable distributions in samples 
