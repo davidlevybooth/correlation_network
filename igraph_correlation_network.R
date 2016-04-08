@@ -64,10 +64,10 @@ metadata <- sample_data(phyloseq_object)
 otu_cor <- rcorr(otu_table) # calculate correlation table # Suggest keeping default Pearson correlations
 otu_cor_r <- otu_cor$r
 cor_len <- length(otu_cor_r) - nrow(otu_cor_r) # Remove self-correlations from n 
-adusted_p <- p.adjust(otu_cor$P, method="fdr") #FDR-correct p-values
+adjusted_p <- p.adjust(otu_cor$P, method="fdr") #FDR-correct p-values
 
 # Option 1. To select correlations by FDR-corrected p-values 
-otu_cor_r[ adust_p > .05 ] <- 0
+otu_cor_r[ adjusted_p > .05 ] <- 0
 ## OR ##
 # Option 2. To select correlations by r-threshold (here > 0.8)
 rna_cor[ rna_cor < .8 ] <- 0
